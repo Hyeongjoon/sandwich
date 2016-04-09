@@ -63,6 +63,7 @@
    margin:0 auto;
 }
 #a-SignUp{
+   cursor: pointer;
    display:block;
    margin:0 auto;
    width:250px;
@@ -71,5 +72,6 @@
 
 /*slickslider setting Login Page-a*/
 .slick-slide {
-outline: none !important;
+	position: relative;
+	outline: none !important;
 }

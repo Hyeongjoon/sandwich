@@ -1,7 +1,7 @@
 exports.mysql = {
 		host : 'localhost',
 		user : 'root',
-		database : 'sendwitch',
+		database : 'sandwich',
 		password : '1234',
 		port : '3306'
 };

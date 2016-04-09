@@ -10,11 +10,11 @@ SET foreign_key_checks = 0;
 
 	DROP TABLE IF exists account;
 create table account
-		(nickname        VARCHAR(20)  NOT NULL,
-	     email       VARCHAR(30)      NOT NULL,
-		password    VARCHAR(30)        NOT NULL,
+		(nickname VARCHAR(20) NOT NULL,
+	     email VARCHAR(30) NOT NULL,
+		password VARCHAR(30) NOT NULL,
         language  VARCHAR(30)   NOT NULL,
-        page_language VARCHAR(255) NOT NULL , 
+        page_language VARCHAR(255) NOT NULL default 'korean', 
         prohibit_account VARCHAR (255) default '',
         interesting_city VARCHAR (255) default '',
         facebook boolean default false,
