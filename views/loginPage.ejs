@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html class="LoginPage">
+   <head>
+      <title><%= title %></title>
+      <meta charset="UTF-8">
+      <link rel='stylesheet' type="text/css" href='/stylesheets/common.css'/>
+      <link rel='stylesheet' type="text/css" href='/stylesheets/loginPage.css'/>
+      <link rel='stylesheet' type="text/css" href='/slickSlider/slick/slick.css'/>
+      <link rel='stylesheet' type="text/css" href='/slickSlider/slick/slick-theme.css'/>
+   
+      <script src="/jQuery/jquery-1.12.0.js" type="text/javascript"></script>
+      <script type="text/javascript" src="slickSlider/slick/slick.min.js"></script>    
+	  <script type="text/javascript" src='/javascripts/loginPageSrc.js' /></script>
+      <script type="text/javascript">
+    $(document).ready(function(){
+    	  $('.slick').slick({
+    		  infinite: true,
+    		  speed: 500,
+    		  fade: true,
+    		  draggable : false,
+    		  arrow : true
+    	  }); 
+    	  
+    	});
+
+   
+    </script>  
+    <link rel="shortcut icon" href="/images/logo3.png">
+   </head>
+<body>
+   
+   <div id="LoginPage-a">
+      <div id="a-LogIn1">
+         <img id="a-Logo" src="/images/LoginPage/login_logo.png">
+      </div>
+	<div class = 'slick'>
+	<div id = 'slickPage1'>
+      <div id="a-LogIn2">
+         <form id="a-form" action="" method="">
+           <table id="a-Table">
+             <tbody>
+                <tr>
+                     <td>
+                         <label for="a-Id2">
+                             <img id="a-Id1" src="/images/LoginPage/ID.png">
+                         </label>
+                     </td>
+                     <td>
+                          <input type="email" name="email" id="a-Id2" placeholder="Enter your email">
+                     </td>
+                     <td rowspan="2">
+                         <input id="a-LogInButton" class='tmp2' type="image" name="Login" src="/images/LoginPage/log_in.png" >
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="a-Pw2">
+                             <img id="a-Pw1" src="/images/LoginPage/PW.png">
+                         </label>
+                     </td>
+                     <td>
+                          <input type="password" name="password" id="a-Pw2" placeholder="password" >
+                     </td>
+                 </tr>
+             </tbody>
+            </table>
+          </form>
+      </div>
+      <div id="a-LogIn3">
+         <div id="a-Bar">
+         </div>
+         <form id="a-form1" action="" method="">
+            <img id="a-SignUp" class="tmp" src="/images/LoginPage/sign_up.png" onclick="$('.slick').slick('slickGoTo', 1);" style="cursor:pointer">
+          </form>
+      </div>
+      </div>
+      <div onclick="$('.slick').slick('slickGoTo', 0);">sakldnsakld</div>
+      </div>
+   </div>
+   
+   
+</body>
+</html>

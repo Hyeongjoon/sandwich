@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>sign up</title>
+	<meta charset="UTF-8">
+	<link rel='stylesheet' type="text/css" href='/stylesheets/style.css'/>
+    <style>
+    input:hover{background:#22E2BF;}
+    #OVERLAP{border:none;}
+    #target{border:1px solid #22E2BF; padding: 7px;}
+    </style>
+</head>
+<body>
+
+	<div class="ALL">
+			<div class="LOGO">
+			  <img src="../../사진/사진이다.jpg" width="100px" height="100px" onclick="location.href='/'" style="cursor:pointer">	
+			</div>
+		<div class="TOTAL">	     
+            <div class="LEFT">
+			       <p>Email
+			       <p>Nickname
+                   <p>password
+                   <p>password 
+                   </br>confirm
+                   <p>default 
+                   </br>
+                   language
+                   <p>addtionl 
+                   </br>language
+            </div>
+
+		            <div class="RIGHT">
+		    	        <form name="signForm" method="post">
+			            <P>
+			            	<div class="chkEmail">
+				               <input name="useremail" type="email" placeholder="email" value=<%=email %>>
+				               <input name="certification" type="button" value="certification" onclick="certify()" style="cursor:pointer">
+				               &nbsp;<input id="OVERLAP" name="resultEmail" type="text" readonly onfocus="this.blur()" value="<%=emailResult%>">
+			                </div>
+			            <p>
+			                <div>
+				               <input name="usernickname" type="text" maxlength="19" placeholder="nick name" value=<%=Nick %>>
+				               <input name="usernicknamerepeat" type="button" value="check" onclick="chkNick()" style="cursor:pointer">
+				               &nbsp;<input id="OVERLAP" name="resultNick" type="text" readonly onfocus="this.blur()" value="<%=nickResult%>">
+			                </div>	
+			            <p>  
+                            <div>
+                               <input name="userPWD" type="password" placeholder="********" maxlength="20">&nbsp;영어 숫자 조합 8자리 이상으로 해주세요
+                               	
+                            </div> 
+
+			            <p >
+			                <div class="SPACE1">
+			         	       <input name="userPWDconfirm" type="password" placeholder="*******" onchange="checkPW()" maxlength="20" >
+			         	    </div> 
+			          
+			            <p>
+			                <div class="SPACE2">
+			            	    <select name="defalutLanguage" id = "defalutL" onchange="setDefault()">
+			            	    	 <option value="-" selected="selected">-----------</option>
+			            	 	     <option value="korean">한국어</option>
+			            	 	     <option value="english">English</option>
+			            	 	     <option value="japanese">Japanese</option>
+			            	 	     <option value="chinese">Chinese</option>
+			            	    </select>
+			            	     
+			                </div>
+			            <p>
+			                <div class="SPACE3">
+			            	        <select name="addtionalLanguage" id = "additionalL">
+			            	 	        <option value="korean">한국어</option>
+			            	            <option value="english">English</option>
+			            	 	        <option value="japanese">Japanese</option>
+			            	 	        <option value="chinese">Chinese</option>
+			            	        </select>
+			            	    
+			            	   	  <input name="addition" type="button" value="추가" onclick="addLanguage()"  style="cursor:pointer">
+			            	   	  <input name="addition" type="button" value="삭제" onclick="deleteLanguage()"  style="cursor:pointer">&nbsp;다른 언어로 게시된 글을 볼 수 있습니다
+			            	</div>
+			            <p id="target">default : addtional :</p>
+			            <div class="AGREE">
+			            	<p>본 서비스를 이용하면서 개인정보 이용
+			            		<a href="http://www.naver.com" target="blank">약관</a>에 동의 하였습니다.
+			            	    <input name="agree" type="checkbox" value="checked"></p>
+			            </div>
+			                
+			            <div class="SIGNUP">
+			                <input name="signin" type="button" value="sing-up" onclick="return signUp()" style="cursor:pointer">
+			                <input name="backto" type="button" value="로그인화면으로" onclick="location.href='/'" style="cursor:pointer">
+			                <input type="hidden" name="finalAddtionL" value="">
+			            </div>
+			          </form>
+                    
+                    </div>
+                    
+        </div>
+    </div>
+ <script src ='/javascripts/signUpSrc.js'></script>		
+
+</body>
+</html>

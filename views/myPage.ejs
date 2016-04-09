@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>myPage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+<style>
+/*****container*****/
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+
+/*******************menubar*********************/
+div, ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+</style>
+<link rel="stylesheet" href="/jQuery-ui/jquery-ui.css" type="text/css" media="all" />
+<script src="/jQuery/jquery-1.12.0.js" type="text/javascript"></script>
+<script src="/jQuery-ui/jquery-ui.js" ></script>
+<script src ='/javascripts/searchbarSrc.js'></script>	
+<script src ='/javascripts/myPageSrc.js'></script>
+<script src ='/javascripts/commonSrc.js'></script>
+  </head>
+  <body>
+<!--container-->
+ <div id="yj-container">
+		<div id="yj-nav">
+			<img class="logo" src="../../사진/사진이다.jpg" onclick="location.href='/'" style="cursor: pointer">
+      </div>
+
+<!--content-->
+      <div id="yj-content">
+        <div id="sendwich-box">
+          <h3><%=inform.nick%></h3>
+        </div>
+        
+        <div id="mypage">
+          <div id="mypage-tool">
+
+            <ul class="tool">
+              <li id="tool-cal1" class="tool-li">
+                <input type="button" id="tool-from">
+              </li>
+              <p id="flow2">~</p>
+              <li id="tool-cal2" class="tool-li">
+                <input type="button" id="tool-to">
+              </li>
+              <li id="tool-searchbar"  class="tool-li">
+                <input type="search" id="tool-bar">
+              </li>
+              <li id="tool-insertimage" class="tool-li">
+                <input type="button" value="insert" id="tool-insert" >
+              </li>
+              <li id="tool-regist" class="tool-li">
+                <input type="button" value="register" id="tool-button" style="cursor: pointer">
+              </li>
+            </ul>
+          </div>
+          <div id="mypage-text">
+           <textarea id="mypage-textarea" wrap="hard"></textarea>
+          </div>
+          <div id="mypage-default">
+            Language
+            <select name="default language" id="selectLanguage">
+              <option value="<%=inform.dLang%>"><%=inform.dLang%></option>
+              <% var tmp = inform.addLang.split(' '); 
+          for(var i = 0 ; i < tmp.length ; i++){
+              %>
+              <option value="<%=tmp[i]%>"><%=tmp[i]%></option>
+              <%}%>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!--wrote-->
+      <% if(mySand.length!=0){  for(var i = 0 ; i < mySand.length; i++) {%>
+      <div id="yj-wrote">
+        <div id="mywrote">
+          <div id="mywrote-title">
+            <a id="wroteid" ><%=mySand[i].nick%></a>
+            <div id="wrote-cancel" style="cursor: pointer" onclick="deleteSand(<%=mySand[i].id%>)">
+            </div>
+           
+            <input id="revise" type="button" value="revise" style="cursor: pointer" 
+            onclick="revise(<%=mySand[i].id%> , '<%=mySand[i].start_date%>' , '<%=mySand[i].end_date%>' , <%=mySand[i].city_code%>, '<%=mySand[i].country_name%>' 
+            		,'<%=mySand[i].city_name%>' , '<%=mySand[i].image%>' ,'<%=mySand[i].contents%>' ,'<%=mySand[i].language%>')">
+            <img id="active" <%if(mySand[i].activated==true) {%>src="/images/activated.png" <%} else { %> 
+            src="/images/deActivated.png"
+            <%}%>style="cursor: pointer" onclick = "transActivation(<%=mySand[i].id%> , <%=mySand[i].activated %>)">
+          </div>
+          <div id="mywrote-content">
+            <div class="mypage-time" id ="sandTime<%=i%>"><%=mySand[i].city_name%>, <%=mySand[i].country_name%> <script>
+            transTime(<%=i%>, '<%=mySand[i].start_date%>' , '<%=mySand[i].end_date%>'); 
+          	</script> Language = <%=mySand[i].language%>
+            </div>
+            <div id="time-value<%=i%>" class ="daysago"><script>
+          	calTime(<%=i%>, '<%=mySand[i].updated_time%>'); 
+          	</script>
+            </div>
+          </div>
+          <div id="mywrote-content">
+            <%=mySand[i].contents%>
+          </div>
+        </div>
+      </div><%}} else {%>
+      
+      <div id="yj-wrote">
+        <div id="mywrote">
+          <div id="mywrote-title">
+            <a id="wroteid" href=""></a>
+          </div>
+          <div id="mywrote-content">
+            <div id="mypage-time">
+            </div>
+          </div>
+          <div id="mywrote-content">
+              첫번째 글을 작성 해보세요!!!
+          </div>
+        </div>
+      </div> <% }%>
+
+<!--go to top logo-->
+      <div id="goToTopLogo" onclick="window.scrollTo(0,0)" style="cursor: pointer">
+      </div>
+
+<!--interesting city-->
+      <div id="myPage-yj-icity">
+        <div id="myPage-icity">
+          <div id="myPage-i-title">
+            interesting city
+          </div>
+
+          <div id="myPage-i-searchadd">
+            <input id="myPage-searchadd" type="search">
+          </div>
+          <div id="myPage-i-save">
+            <input id="myPage-save" type="button" value="add">
+          </div>
+           <% if(inform.interesting_city.length!=0) {for(var i =0; i<inform.interesting_city.length; i++) {%>
+             <div id="myPage-country-box" class="myPage-totalc-box">
+            <div id="myPage-country" class="myPage-c-box">
+              <p id="myPage-t-country" class="myPage-textc-box"><%= inform.interesting_city[i].english_city_name %>, <%= inform.interesting_city[i].country_code%></p>
+            </div>
+            <div id="myPage-cancel" class="myPage-c-box" onclick="deleteInteresting(<%=i%>)" style="cursor: pointer">   <p class="myPage-cancle">
+              x
+              </p>
+            </div>
+          </div>
+            <% }} %>
+        </div>
+      </div>
+<!--menubar-->
+      <div id="yj-menubar">
+        <ul class="menubar">
+          <li id="menu" class="menu-li"><a href="#">menu</a>
+            <ul>
+              <li><a href="/myPage">my page</a></li>
+              <li><a href="/chatMain">chat</a><a id="menu_alram"><%=inform.alram%></a></li>
+              <li><a href="#">search by map</a></li>
+              <li><a href="/option">option</a></li>
+              <li><a href="/main">go to main</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+          <li id="searchbar" class="menu-li">
+            <input type="search" id="i-searchbar">
+          </li>
+          <li id="calender1" class="menu-li">
+            <input type="button" id="from">
+          </li>
+          <p id="flow">~</p>
+          <li id="calender2" class="menu-li">
+            <input type="button" id="to">
+          </li>
+          <li id="searchbutton" class="menu-li">
+            <input id="i-searchbutton" type="button" value="search" onclick="addSearching()" style="cursor: pointer">
+          </li>
+        </ul>
+      </div>
+    </div>
+    <input id="selectedCityName" type="hidden">
+    <input id="selectedCountryName" type="hidden">
+    <input id="selectedCityId" type="hidden">
+    <input id="interestingCityName" type="hidden">
+    <input id="interestingCountryName" type="hidden">
+    <input id="interestingCityId" type="hidden">
+    <input id="sandCityName" type="hidden">
+    <input id="sandCountryName" type="hidden">
+    <input id="sandCityId" type="hidden">
+
+<script src="http://<%=socketIP%>:3001/socket.io/socket.io.js"></script>
+<script src ='/javascripts/connectionSrc.js'></script>
+<audio id='beepSound' src='/sound/beep.mp3' preload="auto"></audio>
+
+  </body>
+</html>

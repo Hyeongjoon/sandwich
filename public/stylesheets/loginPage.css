@@ -1,0 +1,75 @@
+/*page1------------------------Login Page-a*/
+#LoginPage-a{
+  width:100%;
+}
+#a-LogIn1{
+  border:1px solid none;
+  width:100%;
+  height:auto;
+  padding:150px 0 50px 0;
+}
+#a-Logo{
+  max-width:500px;
+  height:100px;
+  display:block;
+  margin:0 auto;
+  border:1px solid none;
+}
+#a-LogIn2{
+  border:1px solid none;
+  width:100%;
+  height:auto;
+  padding:20px 0 20px 0;
+}
+#a-Table{
+   border:1px solid none;
+   margin-left: auto; 
+   margin-right: auto;
+   text-align:center;
+   border-spacing:15px 12px;
+}
+#a-Id1{
+   width:20px;
+   height:20px;
+}
+#a-Id2{
+  display:block;
+  margin:0 auto;
+}
+#a-Pw1{
+   width:20px;
+   height:20px;
+}
+#a-Pw2{
+  display:block;
+  margin:0 auto;
+}
+#a-LogInButton{
+   width:60px;
+   height:60px;
+   display:block;
+   vertical-align:middle;
+}
+#a-LogIn3{
+  width:100%;
+  height:auto;
+}
+#a-Bar{
+   width:700px;
+   height:6px;
+   border:1px solid none;
+   background:gray;
+   display:block;
+   margin:0 auto;
+}
+#a-SignUp{
+   display:block;
+   margin:0 auto;
+   width:250px;
+   height:40px;
+}
+
+/*slickslider setting Login Page-a*/
+.slick-slide {
+outline: none !important;
+}

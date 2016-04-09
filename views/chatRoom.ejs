@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatRoom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' type="text/css" href="/stylesheets/style.css">
+
+<!--calender sourrce-->
+<link rel="stylesheet" href="/jQuery-ui/jquery-ui.css" type="text/css" media="all" />
+<script src="/jQuery/jquery-1.12.0.js" type="text/javascript"></script>
+<script src="/jQuery-ui/jquery-ui.js" ></script>
+<script src ='/javascripts/searchbarSrc.js'></script>
+<script src ='/javascripts/commonSrc.js'></script>
+<script src ='/javascripts/chatRoomSrc.js'></script>
+<style type="text/css">
+li{
+    list-style:none;
+}</style>		
+  </head>
+  <body>
+<!--container-->
+    <div id="yj-container">
+      <div id="yj-nav">
+       <img class="logo" src="../../사진/사진이다.jpg" onclick="location.href='/'" style="cursor: pointer">
+      </div>
+
+  <!--chat main-->
+      <div id="yj-content">
+        <div id="sendwich-box">
+          <h3>SendwicH</h3>
+        </div>
+        
+        <div id="chating-content">
+          <div id="chating-head">
+            <div id="chating-nickname">
+              <a><%=targetNick%></a>
+            </div>
+            <input id="goToChatingMain" type="button" value="go To Chating Main" style="cursor: pointer">
+            </input>
+          </div>
+          <div id="chating-body"><ul>
+            <%if(roomNumber==undefined) {
+          
+          
+          } else{
+          for(var i = chatInfo.length-1 ; i >= 0 ; i--){
+          	if(myNick==chatInfo[i].from_user) {
+          %><li id="chating-mine" ><%-chatInfo[i].log_text%></li><%} else {%>
+           <li id="chating-others">
+          <%-chatInfo[i].log_text%>
+            </li><%}}} %>
+            </ul><div id="chating-readHere">
+            </div>
+         
+          </div>
+          <div id="chating-foot">
+            <textarea id="chating-write" maxlength="1000" ></textarea>
+            <input id="chating-submit" type="button" value="reply" onclick="reply('<%=roomNumber%>','<%=targetNick%>','<%=myNick%>')">
+            </input>
+          </div>
+        </div>
+    
+        
+      </div>
+      
+<!--go to main logo-->
+      <div id="goToTopLogo" onclick="window.scrollTo(0,0)" style="cursor: pointer">
+      </div>
+
+
+<!--menubar-->
+      <div id="yj-menubar">
+        <ul class="menubar">
+          <li id="menu" class="menu-li"><a href="#">menu</a>
+            <ul>
+              <li><a href="/myPage">my page</a></li>
+              <li><a href="/chatMain">chat</a><a id="menu_alram"><%=inform.alram%></a></li>
+              <li><a href="#">search by map</a></li>
+              <li><a href="/option">option</a></li>
+              <li><a href="/main">go to main</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+          <li id="searchbar" class="menu-li">
+            <input type="search" id="i-searchbar">
+          </li>
+          <li id="calender1" class="menu-li">
+            <input type="button" id="from">
+          </li>
+          <p id="flow">~</p>
+          <li id="calender2" class="menu-li">
+            <input type="button" id="to">
+          </li>
+          <li id="searchbutton" class="menu-li">
+            <input id="i-searchbutton" type="button" value="search" onclick="addSearching()" style="cursor: pointer">
+          </li>
+        </ul>
+      </div>
+    </div>
+    <input id="selectedCityName" type="hidden">
+    <input id="selectedCountryName" type="hidden">
+    <input id="selectedCityId" type="hidden">
+<script src="http://<%=socketIP%>:3001/socket.io/socket.io.js"></script>
+<script src ='/javascripts/connectionSrc.js'></script>
+<audio id='beepSound' src='/sound/beep.mp3' preload="auto"></audio>
+<script type="text/javascript"> 
+var inform = {roomNumber : <%=roomNumber%>,
+targetNick : '<%=targetNick%>',
+myNick : '<%=myNick%>',
+nick1 : '<%=nick1%>'
+};
+
+$(function() {socket.emit('new', inform)});
+
+var shift = false;
+
+$(function () {
+    $("#chating-write").keydown(function (key) {
+        if (key.keyCode == 13 && shift==false) {
+        	var contents = $("#chating-write").val();
+        	contents = contents.replace(/(^\s*)|(\s*$)/gi, "");
+        	if(contents==''){
+        		return false;
+        	} else{
+        	reply('<%=roomNumber%>','<%=targetNick%>','<%=myNick%>');
+        	key.preventDefault();
+        		}
+      		 } else if(key.keyCode == 16){
+      			shift = true;
+      		 }
+        });
+
+    $("#chating-write").keyup(function (key) {
+		if(key.keyCode == 16){
+			shift=false;
+		}
+	});
+});
+</script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatMain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' type="text/css" href="/stylesheets/style.css">
+   <link rel="stylesheet" href="/jQuery-ui/jquery-ui.css" type="text/css" media="all" />
+<script src="/jQuery/jquery-1.12.0.js" type="text/javascript"></script>
+<script src="/jQuery-ui/jquery-ui.js" ></script>
+<script src ='/javascripts/searchbarSrc.js'></script>
+<script src ='/javascripts/commonSrc.js'></script>
+<script src ='/javascripts/chatMainSrc.js'></script>	
+  </head>
+
+
+
+
+  <body>
+<!--container-->
+    <div id="yj-container">
+      <div id="yj-nav">
+			<img class="logo" src="../../사진/사진이다.jpg" onclick="location.href='/'" style="cursor: pointer">
+      </div>
+
+  <!--chat main-->
+      <div id="yj-content">
+        <div id="sendwich-box">
+          <h3>SendwicH</h3>
+        </div>
+        <div id = "chat-body">
+        <%if(chatRoom==''){%>
+        <div id="chat-room-none">
+            	채팅방이 없습니다.</div>
+        <%} else {
+        for(var i = 0 ; i < chatRoom.length ; i++){
+        %>
+        <div id="chat-room" class ="<%=chatRoom[i].targetNick%>Body">
+          <div id="chat-nickname">
+           <%=chatRoom[i].targetNick%>
+          </div>
+          <div id="chat-writing" class="<%=chatRoom[i].targetNick%>Contents" onclick="withChat('<%=myNick%>' , '<%=chatRoom[i].targetNick%>')" style="cursor: pointer">
+            <%=chatRoom[i].log_text%>
+          </div>
+          <div id="chat-number" class="<%=chatRoom[i].targetNick%>Number"><%
+            if(chatRoom[i].nick1==myNick){%>
+            <%=chatRoom[i].nick1_alram%><% } else{%>
+            <%=chatRoom[i].nick2_alram%> <% } %> 
+          </div>
+          <div id="chat-cancel" onclick="deleteChatRoom('<%=myNick%>' , '<%=chatRoom[i].targetNick%>' , <%=chatRoom[i].room_number%>)" style="cursor: pointer">
+            x
+          </div>
+        </div><%}}%>
+        </div>
+    
+        
+      </div>
+      
+<!--go to main logo-->
+      <div id="goToTopLogo" onclick="window.scrollTo(0,0)" style="cursor: pointer">
+      </div>
+
+<!--menubar-->
+  <div id="yj-menubar">
+        <ul class="menubar">
+          <li id="menu" class="menu-li"><a href="#">menu</a>
+            <ul>
+              <li><a href="/myPage">my page</a></li>
+              <li><a href="/chatMain">chat</a><a id="menu_alram"><%=inform.alram%></a></li>
+              <li><a href="#">search by map</a></li>
+              <li><a href="/option">option</a></li>
+              <li><a href="/main">go to main</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+          <li id="searchbar" class="menu-li">
+            <input type="search" id="i-searchbar">
+          </li>
+          <li id="calender1" class="menu-li">
+            <input type="button" id="from">
+          </li>
+          <p id="flow">~</p>
+          <li id="calender2" class="menu-li">
+            <input type="button" id="to">
+          </li>
+          <li id="searchbutton" class="menu-li">
+            <input id="i-searchbutton" type="button" value="search" onclick="addSearching()" style="cursor: pointer">
+          </li>
+        </ul>
+      </div>
+    </div>
+    <input id="selectedCityName" type="hidden">
+    <input id="selectedCountryName" type="hidden">
+    <input id="selectedCityId" type="hidden">
+<script src="http://<%=socketIP%>:3001/socket.io/socket.io.js"></script>
+<script src ='/javascripts/connectionSrc.js'></script>
+<audio id='beepSound' src='/sound/beep.mp3' preload="auto"></audio>
+
+  </body>
+</html>
