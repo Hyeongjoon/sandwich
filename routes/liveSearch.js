@@ -17,12 +17,37 @@ var roomNum = [];
 var connectingUser = [];
 
 io.on('connection', function(socket) {
-	
 	// 실시간 push 알람및 실시간 알람을 위한 연결
-	connectingUser[socket.handshake.session.inform.nick] = socket.handshake.session.inform.nick; 
-	socket.join(connectingUser[socket.handshake.session.inform.nick]);
-	
-	
+	//connectingUser[socket.handshake.session.inform.nick] = socket.handshake.session.inform.nick; 
+	//socket.join(connectingUser[socket.handshake.session.inform.nick]);
+	if(socket.handshake.session.inform == undefined){
+	socket.on('loginChk' , function(data){
+		if(data.email==''||data.pw == ''){
+			socket.emit('chkResult' , false);
+		} else{
+			var tmpUserInfo;
+			var tmpNick1Alram;
+			async.waterfall([ function(callback) {
+				accountDAO.findAccount(data.email, data.pw, callback);
+			}, function(args1 , callback){
+				if(args1==''){
+					socket.emit('chkResult' , false);
+					return;
+				} else{
+				tmpUserInfo = args1[0];
+				chat_roomDAO.findMyAlramNick1(tmpUserInfo.nickname, callback);
+				}
+			}, function(args1 , callback){
+				tmpNick1Alram=args1[0]['sum(nick1_alram)'];
+				chat_roomDAO.findMyAlramNick2(tmpUserInfo.nickname, callback);
+			}], function(err, results) {
+				var alram = tmpNick1Alram + results[0]['sum(nick2_alram)'];
+					//여기부터 다시하장>.<
+					
+			});
+		}
+	}); //처음에 로그인 쓸려니까 >.< 아래 설정 당연히 session 없을꺼니까 if문으로 걸러서 오류안생기게 >.<
+	} else{
 	socket.on('findCity', function(data) {
 		var koResult = [];
 		var enResult = [];
@@ -64,7 +89,6 @@ io.on('connection', function(socket) {
 					koResult[i] = {address : tmp.result.formatted_address , placeId : tmp.result.place_id};
 					} else {
 						console.log('구글에 detail 요청보냈는데 에러남');
-						
 						return;
 					}
 				});
@@ -422,7 +446,7 @@ io.on('connection', function(socket) {
 		}
 	});
 	
-	
+	}
 });
 
 

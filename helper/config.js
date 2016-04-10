@@ -6,6 +6,6 @@ exports.mysql = {
 		port : '3306'
 };
 
-exports.socketIODomain = "192.168.205.28";
+exports.socketIODomain = "192.168.0.43";
 
 exports.google_place_apikey = 'AIzaSyAvIRqfsgaawrUYCzpvMbka71o37gSyVkU'

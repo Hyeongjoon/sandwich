@@ -7,37 +7,23 @@ var TownDAO = require('../model/TownDAO.js');
 var chatRoomDAO = require('../model/chat_roomDAO.js');
 
 router.post('/', function(req, res, next) {
-	var tmp;
-	var tmp2;
+	var userInfo;
 	var alram = 0;
-	async.waterfall([ function(callback) {
-		AccountDAO.findAccount(req.body.useremail, req.body.userPWD, callback);
-	}, function(args1, callback) {
-		tmp = args1;
-		if (tmp[0] == undefined) {
-			callback(null, null);
-		} else {
-			if (args1[0].interesting_city_code == null) {
-				callback(null, null);
-			} else {
-				TownDAO.findCityById(args1[0].interesting_city_code, callback);
-			}
+	if(req.body.email==null || req.body.password==null){
+		res.render('err');
+	} else{
+	async.series([ function(callback) {
+		AccountDAO.findAccount(req.body.email, req.body.password, callback);
+	}, function(callback){
+		  chatRoomDAO.findMyAlramNick1(req.body.email, callback);
+	}, function(callback){
+		chatRoomDAO.findMyAlramNick2(req.body.email , callback);
+	}], function(err, results) {
+		console.log(results[0]);
+		if(results[0]==''){
+			console.log("영구없당");
 		}
-	}, function(args1 , callback){
-		tmp2 = args1;
-		if(tmp2==null){
-			callback(null , null);
-		} else{
-		  chatRoomDAO.findMyAlramNick1(tmp[0].nickname , callback);
-		}
-	} , function(args1 , callback){
-		if(args1==null){
-			callback(null , null);
-		} else{
-		alram = alram + args1[0]['sum(nick1_alram)'];
-		chatRoomDAO.findMyAlramNick2(tmp[0].nickname , callback);
-		}
-	} ], function(err, results) {
+		/*
 		if (err) {
 			res.redirect('/error');
 		}
@@ -50,6 +36,7 @@ router.post('/', function(req, res, next) {
 				tmp[0].interesting_city_code ='';
 			}
 			alram = alram + results[0]['sum(nick2_alram)'];
+			alram = alram + args1[0]['sum(nick1_alram)'];
 			req.session.inform = {
 				login : 'sucess',
 				nick : tmp[0].nickname,
@@ -86,8 +73,8 @@ router.post('/', function(req, res, next) {
 			}
 			req.session.searchCity = tmp2;
 			res.redirect('/main');
-		}
-	});
+		}*/
+	});}
 });
 
 router.get('/', function(req, res, next) {
