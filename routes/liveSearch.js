@@ -7,23 +7,25 @@ var accountDAO = require('../model/AccountDAO.js');
 var chat_roomDAO = require('../model/chat_roomDAO.js');
 var chat_logDAO = require('../model/chat_logDAO.js');
 var config = require('../helper/config.js');
-
+var passportSocketIo = require("passport.socketio");
 var place_key = config.google_place_apikey;
 
+
+
 var io = require('../app.js').tmp;
+var passport = require('../app.js').passportTmp;
+
 
 var room = [];
 var roomNum = [];
 var connectingUser = [];
 
 io.on('connection', function(socket) {
-	// 실시간 push 알람및 실시간 알람을 위한 연결
-	//connectingUser[socket.handshake.session.inform.nick] = socket.handshake.session.inform.nick; 
-	//socket.join(connectingUser[socket.handshake.session.inform.nick]);
 	if(socket.handshake.session.inform == undefined){
 	socket.on('loginChk' , function(data){
 		if(data.email==''||data.pw == ''){
 			socket.emit('chkResult' , false);
+			return;
 		} else{
 			var tmpUserInfo;
 			var tmpNick1Alram;
@@ -42,8 +44,16 @@ io.on('connection', function(socket) {
 				chat_roomDAO.findMyAlramNick2(tmpUserInfo.nickname, callback);
 			}], function(err, results) {
 				var alram = tmpNick1Alram + results[0]['sum(nick2_alram)'];
-					//여기부터 다시하장>.<
-					
+				socket.handshake.session.inform = tmpUserInfo;
+				socket.handshake.session.inform.password = undefined;
+				delete socket.handshake.session.inform.password;
+				socket.handshake.session.inform.login = 'sucess';
+				socket.handshake.session.inform.alram = alram;
+				socket.handshake.session.save();
+				socket.emit('chkResult' , true);
+				console.log(socket.handshake.session);
+				connectingUser[socket.handshake.session.inform.nickname] = socket.handshake.session.inform.nickname;
+				socket.join(connectingUser[socket.handshake.session.inform.nickname]);
 			});
 		}
 	}); //처음에 로그인 쓸려니까 >.< 아래 설정 당연히 session 없을꺼니까 if문으로 걸러서 오류안생기게 >.<

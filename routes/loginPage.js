@@ -5,6 +5,7 @@ var config = require('../helper/config.js');
 router.get('/', function(req, res, next) {
 	req.session.socketIp = config.socketIODomain;
 	if (req.session.inform == undefined) {
+		console.log(req.session);
 		res.render('loginPage', {
 			title : 'sandwich',
 			socketIP : req.session.socketIp
