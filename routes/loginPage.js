@@ -5,7 +5,6 @@ var config = require('../helper/config.js');
 router.get('/', function(req, res, next) {
 	req.session.socketIp = config.socketIODomain;
 	if (req.session.inform == undefined) {
-		console.log(req.session);
 		res.render('loginPage', {
 			title : 'sandwich',
 			socketIP : req.session.socketIp
@@ -27,8 +26,5 @@ router.get('/logout', function(req, res, next) {
 	res.redirect('/');
 });
 
-router.get('/google8c0de622edb1cbc9.html', function(req, res, next) {
-	res.render('google8c0de622edb1cbc9', {});
-});
 
 module.exports = router;

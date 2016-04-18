@@ -1,19 +1,18 @@
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
+var async = require()
 
-
-
-
-passport.use(new localStrategy({
+passport.use( new localStrategy({
         usernameField: 'email',
         passwordField: 'password'
-      },
-      function(email, password, done) {
-      // 인증 정보 체크 로직
+      } , function(email, password, done) {
+    	    console.log("여긴 되는겨???");
+    	    console.log(email);
+    	    console.log(password);
         if (email === 'wkdwns00@gmail.com' && password === '7557523m') {
-        // 로그인 성공시 유저 아이디를 넘겨준다.
+        
         	console.log("이건 언제되는겨");
-          var user = {id: 'user_1'};
+          var user = {id : 'user_1'};
           return done(null, user);
         } else {
           return done(null, false, { message: 'Fail to login.' });
@@ -21,7 +20,7 @@ passport.use(new localStrategy({
       }
 ));
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser( function(user, done) {
     console.log('serialize');
     done(null, user);
 });

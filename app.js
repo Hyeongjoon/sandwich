@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var Session = require('express-session');
 
-
 var config = require('./helper/config.js');
 
 var CookiePaser = cookieParser(config.secretKey);
@@ -23,7 +22,6 @@ var sessionStore = new RedisStore({
 	host : config.redisConfig.host
 });
 
-
 var session = new Session({
 	store: sessionStore,
 	cookie:{
@@ -34,7 +32,6 @@ var session = new Session({
     saveUninitialized : false,
     secret: config.secretKey
 });
-
 
 var app = express();
 
@@ -48,9 +45,9 @@ app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
 
+exports.passport = passport;
+
 exports.tmp = io.use(sharedsession(session));
-
-
 
 
 
@@ -59,7 +56,6 @@ var engine = require('ejs-locals');
 
 
 var login = require('./routes/loginPage');
-var find = require('./routes/findMember');
 var signUp = require('./routes/signUp');
 var main = require('./routes/main');
 var addSearching = require('./routes/addSearchingCity');
@@ -69,6 +65,8 @@ var chatMain = require('./routes/chatMain');
 var withChat = require('./routes/withChat');
 var liveSearch = require('./routes/liveSearch');
 var tmp = require('./routes/tmp');
+var success =require('./routes/loginSuccess');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
@@ -80,7 +78,7 @@ app.set('view engine', 'ejs');
 app.use(favicon(__dirname + '/public/images/logo3.png'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
@@ -96,7 +94,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/tmp' , tmp);
 app.use(':3001/' , liveSearch);
 app.use('/' , login);
-app.use('/findMember' , find);
 app.use('/signUp' , signUp);
 app.use('/main' , main);
 app.use('/addSearching', addSearching);
@@ -104,6 +101,7 @@ app.use('/myPage' , myPage);
 app.use('/option' , option);
 app.use('/chatMain' , chatMain);
 app.use('/withChat' , withChat);
+app.use('/loginSuccess' , success);
 
 
 app.get('/error', function(req, res, next){

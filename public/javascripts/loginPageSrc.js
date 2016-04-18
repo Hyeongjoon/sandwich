@@ -54,15 +54,16 @@ function chkEmail() {
 		$('#a-LogInButton').css('cursor', 'default');
 	}
 };
+
 $(function() {
 	socket.on('chkResult' , function(data) {
-		if(data===false){
+		if(data===false) {
 			$.msgBox({
-				title:"쮸뿌쮸뿌",
-				content:"아이디 혹은 비밀번호가 일치하지 않습니다."
+				title : "쮸뿌쮸뿌" ,
+				content : "아이디 혹은 비밀번호가 일치하지 않습니다."
 				});
 			$('#a-LogInButton').attr('src',"images/LoginPage/log_in.png");
-			$('#a-LogInButton').bind('click' , function(){
+			$('#a-LogInButton').bind('click' , function() {
 				chkEmail();
 			});
 	    	$('#a-Id2 , #a-Pw2').bind('keypress' , function(e){
@@ -70,8 +71,29 @@ $(function() {
 			});
 	    	$('#a-LogInButton').css('cursor', 'pointer');
 			return;
-		} else{
-			console.log("여기까지 왔쪙"); //로그인 성공했을때 해야할일 적기
+		} else {
+			var email = $('#a-Id2').val();
+			var pw = $('#a-Pw2').val();
+			
+			var form = document.createElement("form");
+	
+			var input = document.createElement("input");
+			form.setAttribute("method", "post");
+			form.setAttribute("action", "/loginSuccess");
+			input.type = "hidden";
+			input.name = "email";
+			input.value = email;
+			form.appendChild(input);
+			
+			var input2 = document.createElement("input");
+			input2.type = "hidden";
+			input2.name = "password";
+			input2.value = pw;
+			form.appendChild(input2);
+			
+			document.body.appendChild(form);
+			form.submit();
+			 
 		}
 	});
 });

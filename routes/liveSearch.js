@@ -11,7 +11,6 @@ var passportSocketIo = require("passport.socketio");
 var place_key = config.google_place_apikey;
 
 
-
 var io = require('../app.js').tmp;
 var passport = require('../app.js').passportTmp;
 
@@ -21,42 +20,28 @@ var roomNum = [];
 var connectingUser = [];
 
 io.on('connection', function(socket) {
-	if(socket.handshake.session.inform == undefined){
-	socket.on('loginChk' , function(data){
-		if(data.email==''||data.pw == ''){
+	if(socket.handshake.session.login!='success'){
+	socket.on('loginChk' , function(data) {
+		if ( data.email=='' || data.pw == '' ) {
 			socket.emit('chkResult' , false);
 			return;
 		} else{
-			var tmpUserInfo;
-			var tmpNick1Alram;
 			async.waterfall([ function(callback) {
 				accountDAO.findAccount(data.email, data.pw, callback);
-			}, function(args1 , callback){
-				if(args1==''){
+			}], function(err, results) {
+				if(results[0]==undefined){
 					socket.emit('chkResult' , false);
 					return;
-				} else{
-				tmpUserInfo = args1[0];
-				chat_roomDAO.findMyAlramNick1(tmpUserInfo.nickname, callback);
-				}
-			}, function(args1 , callback){
-				tmpNick1Alram=args1[0]['sum(nick1_alram)'];
-				chat_roomDAO.findMyAlramNick2(tmpUserInfo.nickname, callback);
-			}], function(err, results) {
-				var alram = tmpNick1Alram + results[0]['sum(nick2_alram)'];
-				socket.handshake.session.inform = tmpUserInfo;
-				socket.handshake.session.inform.password = undefined;
-				delete socket.handshake.session.inform.password;
-				socket.handshake.session.inform.login = 'sucess';
-				socket.handshake.session.inform.alram = alram;
+				}else{
+				socket.handshake.session.login = 'sucess';
 				socket.handshake.session.save();
-				socket.emit('chkResult' , true);
-				console.log(socket.handshake.session);
-				connectingUser[socket.handshake.session.inform.nickname] = socket.handshake.session.inform.nickname;
-				socket.join(connectingUser[socket.handshake.session.inform.nickname]);
+				socket.emit( 'chkResult' , true );
+				connectingUser[results[0].nickname] = results[0].nickname
+				socket.join(connectingUser[results[0].nickname]);
+				}
 			});
 		}
-	}); //처음에 로그인 쓸려니까 >.< 아래 설정 당연히 session 없을꺼니까 if문으로 걸러서 오류안생기게 >.<
+	}); 
 	} else{
 	socket.on('findCity', function(data) {
 		var koResult = [];
