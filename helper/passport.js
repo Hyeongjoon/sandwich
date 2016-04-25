@@ -1,6 +1,6 @@
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
-var async = require()
+
 
 passport.use( new localStrategy({
         usernameField: 'email',
